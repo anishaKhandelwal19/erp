@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Institute of Management Technology, Hyderabad - Campus ERP</title>
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Skills Large Box Grid */
+    .skills-box-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .skill-category-box {
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .skill-category-box:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .skill-category-box.active {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+      box-shadow: var(--shadow-md);
+    }
+    .skill-category-icon {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .skill-category-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .skill-category-sub {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 0.3rem;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       IMT HYDERABAD LOGIN PAGE (FULL SCREEN SPLIT LAYOUT WITH PUBLIC SEARCH)
+       ========================================================================== -->
+  <div id="login-view">
+    <div class="login-bg-overlay"></div>
+
+    <!-- TOP NAVBAR WITH IMT LOGO & GLOBAL PUBLIC SEARCH BAR -->
+    <header class="login-top-navbar">
+      <div class="login-nav-left">
+        <div class="imt-logo-badge">IMT</div>
+        <div>
+          <div class="imt-logo-text">Institute of Management Technology</div>
+          <div class="imt-sub-text">Hyderabad Campus • Student ERP Portal</div>
+        </div>
+      </div>
+
+      <!-- PUBLIC GLOBAL SEARCH BAR -->
+      <div class="login-nav-right">
+        <div class="login-search-box">
+          <i data-lucide="search" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+          <input type="text" id="public-search-input" placeholder="Search public campus drives & skills..." oninput="window.handlePublicSearch(this.value)">
+        </div>
+        <div id="public-search-dropdown" class="public-search-dropdown hidden"></div>
+      </div>
+    </header>
+
+    <!-- SPLIT SCREEN MAIN CONTENT -->
+    <div class="login-split-container">
+      
+      <!-- LEFT SIDE: INSTITUTE INFORMATION & OVERVIEW -->
+      <div class="login-left-info">
+        <div class="imt-hero-badge">OFFICIAL ERP PORTAL</div>
+        <h1 class="imt-hero-title">
+          Institute of Management Technology<br>
+          <span style="color: #60a5fa;">Hyderabad</span>
+        </h1>
+        <p class="imt-hero-desc">
+          Welcome to IMT Hyderabad's official Student ERP Portal — empowering 700+ management students with real-time placement analytics, company hiring trends, domain skill taxonomies, and peer-to-peer campus mentorship networks.
+        </p>
+
+        <div class="imt-stats-strip">
+          <div class="imt-stat-item">
+            <div class="imt-stat-num">700+</div>
+            <div class="imt-stat-lbl">Campus Students</div>
+          </div>
+          <div class="imt-stat-item">
+            <div class="imt-stat-num">20+</div>
+            <div class="imt-stat-lbl">Top Recruiters</div>
+          </div>
+          <div class="imt-stat-item">
+            <div class="imt-stat-num">₹21.5 LPA</div>
+            <div class="imt-stat-lbl">Avg Final Package</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: CLEAN PRODUCTION ERP LOGIN CARD -->
+      <div class="login-right-card">
+        <div class="login-card-inner">
+          <h2 class="login-card-title">Welcome!</h2>
+          <p class="login-card-sub">Please login to continue to Campus ERP.</p>
+
+          <form id="login-form" autocomplete="off">
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label" style="color: #cbd5e1; font-weight: 600;">Username / Student ID</label>
+              <input type="text" id="login-username" class="form-input login-dark-input" placeholder="Enter username" required autocomplete="off">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <label class="form-label" style="color: #cbd5e1; font-weight: 600;">Password</label>
+              <div style="position: relative;">
+                <input type="password" id="login-password" class="form-input login-dark-input" placeholder="Enter password" required autocomplete="off">
+                <button type="button" id="toggle-pwd-btn" onclick="window.togglePasswordVisibility()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 1rem;">
+                  👁️
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group flex items-center justify-between" style="margin-bottom: 1.5rem;">
+              <label class="flex items-center gap-2" style="font-size: 0.85rem; color: #cbd5e1; cursor: pointer;">
+                <input type="checkbox" id="remember-me" checked> Remember me
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full" style="padding: 0.85rem; font-size: 1rem; font-weight: 700; border-radius: 8px;">
+              Login to Campus ERP →
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN ERP APP VIEW (SHOWN AFTER SUCCESSFUL LOGIN)
+       ========================================================================== -->
+  <div id="app-view" class="hidden">
+    <div id="app-container">
+      
+      <!-- LEFT SIDEBAR -->
+      <aside class="sidebar" id="main-sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo-icon">IMT</div>
+          <div>
+            <div class="sidebar-brand">IMT Hyderabad</div>
+            <div class="sidebar-subtitle">Student ERP Portal</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a class="nav-item active" data-view="home" onclick="window.switchView('home')">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Home</span>
+          </a>
+          <a class="nav-item" data-view="placement" onclick="window.switchView('placement')">
+            <i data-lucide="briefcase"></i>
+            <span>Placement</span>
+          </a>
+          <a class="nav-item" data-view="skills" onclick="window.switchView('skills')">
+            <i data-lucide="award"></i>
+            <span>Skills</span>
+          </a>
+          <a class="nav-item" data-view="requests" onclick="window.switchView('requests')">
+            <i data-lucide="git-pull-request"></i>
+            <span>Requests</span>
+          </a>
+          <a class="nav-item" data-view="profile" onclick="window.switchView('profile')">
+            <i data-lucide="user"></i>
+            <span>Profile</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-mini-card" style="margin-bottom: 0.5rem;">
+            <img id="sidebar-user-avatar" src="" alt="User" class="avatar">
+            <div style="overflow: hidden;">
+              <div id="sidebar-user-name" class="user-mini-name">User Name</div>
+              <div id="sidebar-user-domain" class="user-mini-domain">Domain</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary w-full btn-sm" onclick="window.handleLogout()" title="Logout of ERP Portal">
+            <i data-lucide="log-out"></i> Logout
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN WRAPPER -->
+      <div class="main-wrapper">
+        
+        <!-- TOP HEADER WITH GLOBAL SEARCH BAR -->
+        <header class="top-header">
+          <div class="header-left">
+            <h2 id="header-page-title" class="page-title">Dashboard</h2>
+          </div>
+
+          <!-- GLOBAL ERP HEADER SEARCH BAR -->
+          <div class="header-center" style="position: relative; flex: 1; max-width: 440px; margin: 0 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; background: #f1f5f9; border: 1px solid #cbd5e1; padding: 0.45rem 0.85rem; border-radius: 9999px;">
+              <i data-lucide="search" style="width: 16px; height: 16px; color: #64748b;"></i>
+              <input type="text" id="global-header-search" style="border: none; background: transparent; padding: 0; font-size: 0.85rem; outline: none; width: 100%;" placeholder="Search companies, skills, mentors..." oninput="window.handleGlobalHeaderSearch(this.value)">
+            </div>
+            <div id="global-search-results-dropdown" class="public-search-dropdown hidden" style="width: 100%; top: 44px; background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; box-shadow: var(--shadow-lg);"></div>
+          </div>
+
+          <div class="header-right">
+            <!-- NOTIFICATION BELL -->
+            <div class="notif-bell-container">
+              <button class="notif-bell-btn" onclick="window.toggleNotificationDropdown()">
+                <i data-lucide="bell"></i>
+                <span id="notif-badge" class="notif-badge hidden">0</span>
+              </button>
+
+              <div id="notif-dropdown" class="notif-dropdown">
+                <div class="notif-header">
+                  <h4>Notifications</h4>
+                  <button class="btn btn-sm btn-outline" style="font-size: 0.7rem; padding: 0.1rem 0.4rem;" onclick="window.markAllNotificationsRead()">Mark Read</button>
+                </div>
+                <div id="notif-list" class="notif-list">
+                  <!-- Dynamic Notifications -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="content-container">
+
+          <!-- ------------------------------------------------------------------
+               1. HOME / DASHBOARD VIEW
+               ------------------------------------------------------------------ -->
+          <div id="view-home" class="view-panel">
+            <div class="welcome-banner">
+              <div>
+                <h1 id="welcome-heading" class="welcome-title">Good day, Student!</h1>
+                <p class="welcome-sub">Institute of Management Technology, Hyderabad • Student ERP Portal</p>
+              </div>
+              <button class="btn btn-secondary" onclick="window.switchView('skills')">
+                <i data-lucide="plus-circle"></i> Request Skill Session
+              </button>
+            </div>
+
+            <!-- KPI SUMMARY CARDS -->
+            <div class="summary-cards-grid">
+              <div class="card kpi-card">
+                <div class="kpi-icon" style="background: #dbeafe; color: #1e40af;"><i data-lucide="briefcase"></i></div>
+                <div>
+                  <div id="kpi-placement-count" class="kpi-value">12</div>
+                  <div class="kpi-label">Upcoming Placements</div>
+                </div>
+              </div>
+
+              <div class="card kpi-card">
+                <div class="kpi-icon" style="background: #e0e7ff; color: #3730a3;"><i data-lucide="award"></i></div>
+                <div>
+                  <div id="kpi-skills-count" class="kpi-value">30+</div>
+                  <div class="kpi-label">Campus Skills</div>
+                </div>
+              </div>
+
+              <div class="card kpi-card">
+                <div class="kpi-icon" style="background: #fef3c7; color: #92400e;"><i data-lucide="send"></i></div>
+                <div>
+                  <div id="kpi-sent-count" class="kpi-value">0</div>
+                  <div class="kpi-label">Requests Sent</div>
+                </div>
+              </div>
+
+              <div class="card kpi-card">
+                <div class="kpi-icon" style="background: #d1fae5; color: #065f46;"><i data-lucide="inbox"></i></div>
+                <div>
+                  <div id="kpi-received-count" class="kpi-value">0</div>
+                  <div class="kpi-label">Requests Received</div>
+                </div>
+              </div>
+
+              <div class="card kpi-card">
+                <div class="kpi-icon" style="background: #ffe4e6; color: #9f1239;"><i data-lucide="calendar"></i></div>
+                <div>
+                  <div id="kpi-sessions-count" class="kpi-value">0</div>
+                  <div class="kpi-label">Accepted Sessions</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- DASHBOARD SPLIT GRID -->
+            <div class="dashboard-split-grid">
+              <!-- PLACEMENT SNAPSHOT -->
+              <div class="card">
+                <div class="section-card-header">
+                  <h3 class="section-card-title">Placement Snapshot</h3>
+                  <button class="btn btn-sm btn-outline" onclick="window.switchView('placement')">View All Companies</button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div style="background: #f8fafc; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Companies Visited</div>
+                    <div style="font-size: 1.25rem; font-weight: 800; color: #1e40af;">20+ Companies</div>
+                  </div>
+                  <div style="background: #f8fafc; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+                    <div style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Avg Package (Finals)</div>
+                    <div style="font-size: 1.25rem; font-weight: 800; color: #10b981;">₹21.5 LPA</div>
+                  </div>
+                </div>
+                <div style="font-size: 0.825rem; font-weight: 700; margin-bottom: 0.5rem; color: #334155;">Upcoming Placement Drives:</div>
+                <div id="dash-placement-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <!-- Dynamic Companies list -->
+                </div>
+              </div>
+
+              <!-- SKILL SNAPSHOT & UPCOMING SESSIONS -->
+              <div class="card">
+                <div class="section-card-header">
+                  <h3 class="section-card-title">Peer Skill Snapshot & Sessions</h3>
+                  <button class="btn btn-sm btn-outline" onclick="window.switchView('requests')">View Requests</button>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                  <div style="font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 0.4rem;">Skills You Can Teach (Based on Domain):</div>
+                  <div id="dash-teach-tags" class="tag-cloud">
+                    <!-- Dynamic teach tags -->
+                  </div>
+                </div>
+
+                <div style="font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">Upcoming Peer Learning Sessions:</div>
+                <div id="dash-upcoming-sessions" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                  <!-- Dynamic sessions list -->
+                </div>
+              </div>
+            </div>
+
+            <!-- RECENT ACTIVITY TIMELINE -->
+            <div class="card">
+              <div class="section-card-header">
+                <h3 class="section-card-title">Recent ERP & Skill Activity</h3>
+              </div>
+              <div id="dash-activity-timeline" class="timeline">
+                <!-- Dynamic timeline items -->
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ------------------------------------------------------------------
+               2. PLACEMENT MODULE VIEW
+               ------------------------------------------------------------------ -->
+          <div id="view-placement" class="view-panel hidden">
+            <!-- LANDING CARDS: SUMMER INTERNSHIP vs FINAL PLACEMENT -->
+            <div class="placement-type-cards">
+              <div id="type-card-internship" class="placement-type-card active" onclick="window.selectPlacementType('Summer Internship')">
+                <div class="placement-type-icon">☀️</div>
+                <h2 style="font-size: 1.35rem; font-weight: 800;">SUMMER INTERNSHIP</h2>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.4rem;">2-Month Summer Internships • Stipends up to ₹3.5 L/Month</p>
+              </div>
+
+              <div id="type-card-final" class="placement-type-card" onclick="window.selectPlacementType('Final Placement')">
+                <div class="placement-type-icon">🎓</div>
+                <h2 style="font-size: 1.35rem; font-weight: 800;">FINAL PLACEMENT</h2>
+                <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.4rem;">Full-Time Executive Roles • Packages up to ₹45.0 LPA</p>
+              </div>
+            </div>
+
+            <!-- EXACT 5 DOMAIN CARDS -->
+            <div style="margin-bottom: 1rem;">
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">Filter by Domain:</h3>
+              <div class="domains-grid">
+                <div class="domain-card active" data-domain="All" onclick="window.filterPlacementDomain('All')">
+                  <div class="domain-card-icon">🌐</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">All Domains</div>
+                </div>
+                <div class="domain-card" data-domain="Marketing" onclick="window.filterPlacementDomain('Marketing')">
+                  <div class="domain-card-icon">📢</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Marketing</div>
+                </div>
+                <div class="domain-card" data-domain="Finance" onclick="window.filterPlacementDomain('Finance')">
+                  <div class="domain-card-icon">📈</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Finance</div>
+                </div>
+                <div class="domain-card" data-domain="Operations" onclick="window.filterPlacementDomain('Operations')">
+                  <div class="domain-card-icon">⚙️</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">Operations</div>
+                </div>
+                <div class="domain-card" data-domain="HR" onclick="window.filterPlacementDomain('HR')">
+                  <div class="domain-card-icon">👥</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">HR</div>
+                </div>
+                <div class="domain-card" data-domain="IT" onclick="window.filterPlacementDomain('IT')">
+                  <div class="domain-card-icon">💻</div>
+                  <div style="font-weight: 700; font-size: 0.95rem;">IT</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SEARCH BAR & COMPANY GRID CONTAINER -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; gap: 1rem; align-items: center;">
+                <input type="text" id="placement-search-input" class="form-input" placeholder="Search company name, roles, or required skills..." oninput="window.renderPlacementCompanies()">
+              </div>
+            </div>
+
+            <!-- COMPANY LISTING CONTAINER -->
+            <div id="placement-companies-grid" class="companies-grid">
+              <!-- Dynamic Company Cards -->
+            </div>
+
+            <!-- COMPANY DETAIL VIEW CONTAINER (Hidden by default) -->
+            <div id="company-detail-panel" class="hidden" style="margin-top: 1.5rem;">
+              <!-- Dynamic Company Detail Content -->
+            </div>
+          </div>
+
+
+          <!-- ------------------------------------------------------------------
+               3. SKILLS MODULE VIEW (WITH LARGE CATEGORY BOXES)
+               ------------------------------------------------------------------ -->
+          <div id="view-skills" class="view-panel hidden">
+            
+            <!-- LARGE SKILL CATEGORY BOXES (KEY SKILLS, MARKETING, FINANCE, OPERATIONS, IT, HR) -->
+            <div style="margin-bottom: 1rem;">
+              <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 0.85rem; color: #0f172a;">Select Skill Domain / Category:</h3>
+              <div class="skills-box-grid">
+                
+                <div id="sbox-key" class="skill-category-box active" onclick="window.selectSkillCategory('KEY SKILLS')">
+                  <div class="skill-category-icon">🔑</div>
+                  <div class="skill-category-title">KEY SKILLS</div>
+                  <div class="skill-category-sub">Excel, PPT, Public Speaking, Power BI, SQL, Case Solving...</div>
+                </div>
+
+                <div id="sbox-mkt" class="skill-category-box" onclick="window.selectSkillCategory('Marketing')">
+                  <div class="skill-category-icon">📢</div>
+                  <div class="skill-category-title">MARKETING</div>
+                  <div class="skill-category-sub">Consumer Behaviour, Brand Mgmt, Digital Ads, SEO, Sales...</div>
+                </div>
+
+                <div id="sbox-fin" class="skill-category-box" onclick="window.selectSkillCategory('Finance')">
+                  <div class="skill-category-icon">📈</div>
+                  <div class="skill-category-title">FINANCE</div>
+                  <div class="skill-category-sub">Financial Modelling, Valuation, Accounting, Corporate Fin...</div>
+                </div>
+
+                <div id="sbox-ops" class="skill-category-box" onclick="window.selectSkillCategory('Operations')">
+                  <div class="skill-category-icon">⚙️</div>
+                  <div class="skill-category-title">OPERATIONS</div>
+                  <div class="skill-category-sub">Supply Chain, Logistics, Inventory, Optimization...</div>
+                </div>
+
+                <div id="sbox-it" class="skill-category-box" onclick="window.selectSkillCategory('IT')">
+                  <div class="skill-category-icon">💻</div>
+                  <div class="skill-category-title">IT</div>
+                  <div class="skill-category-sub">Python, SQL, Data Analytics, Web Dev, Machine Learning...</div>
+                </div>
+
+                <div id="sbox-hr" class="skill-category-box" onclick="window.selectSkillCategory('HR')">
+                  <div class="skill-category-icon">👥</div>
+                  <div class="skill-category-title">HR</div>
+                  <div class="skill-category-sub">Recruitment, Talent Mgmt, HR Analytics, Labour Laws...</div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- SEARCH & FILTER INPUT -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+              <div style="display: flex; gap: 1rem; align-items: center;">
+                <input type="text" id="skills-search-input" class="form-input" style="flex: 1;" placeholder="Search skills by keyword or topic..." oninput="window.renderSkillsModule()">
+              </div>
+            </div>
+
+            <!-- DISPLAYED SKILLS CONTAINER -->
+            <div>
+              <div class="skills-section-header">
+                <i data-lucide="award" style="color: var(--primary);"></i>
+                <span id="skill-category-header-title">KEY CROSS-DOMAIN SKILLS</span>
+              </div>
+              <div id="active-skills-grid" class="skills-grid">
+                <!-- Dynamic Skill Cards -->
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- ------------------------------------------------------------------
+               4. REQUESTS MODULE VIEW (RECEIVED & SENT TABS)
+               ------------------------------------------------------------------ -->
+          <div id="view-requests" class="view-panel hidden">
+            <!-- TAB BAR -->
+            <div class="tab-bar">
+              <button class="tab-btn active" id="tab-received-btn" onclick="window.switchRequestsTab('received')">
+                REQUESTS RECEIVED <span id="tab-received-count-badge" class="badge badge-indigo">0</span>
+              </button>
+              <button class="tab-btn" id="tab-sent-btn" onclick="window.switchRequestsTab('sent')">
+                REQUESTS SENT <span id="tab-sent-count-badge" class="badge badge-gray">0</span>
+              </button>
+            </div>
+
+            <!-- TAB 1: REQUESTS RECEIVED CONTAINER -->
+            <div id="requests-received-panel">
+              <div id="requests-received-grid" class="requests-grid">
+                <!-- Dynamic Received Request Cards -->
+              </div>
+            </div>
+
+            <!-- TAB 2: REQUESTS SENT CONTAINER -->
+            <div id="requests-sent-panel" class="hidden">
+              <div id="requests-sent-grid" class="requests-grid">
+                <!-- Dynamic Sent Request Cards -->
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ------------------------------------------------------------------
+               5. PROFILE MODULE VIEW
+               ------------------------------------------------------------------ -->
+          <div id="view-profile" class="view-panel hidden">
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+              <div class="section-card-header">
+                <h3 class="section-card-title">Student ERP Profile</h3>
+                <button class="btn btn-primary" onclick="window.openProfileEditModal()">
+                  <i data-lucide="edit"></i> Edit Profile
+                </button>
+              </div>
+
+              <div style="display: flex; gap: 2rem; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap;">
+                <img id="profile-view-avatar" src="" alt="Profile" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 4px solid var(--primary-light);">
+                
+                <div style="flex: 1;">
+                  <h2 id="profile-view-name" style="font-size: 1.5rem; font-weight: 800;">Student Name</h2>
+                  <div style="display: flex; gap: 0.5rem; align-items: center; margin: 0.35rem 0;">
+                    <span id="profile-view-id" class="badge badge-gray">STU2025000</span>
+                    <span id="profile-view-programme" class="badge badge-blue">MBA</span>
+                    <span id="profile-view-year" class="badge badge-indigo">2nd Year</span>
+                  </div>
+                  <p id="profile-view-email" style="font-size: 0.85rem; color: #64748b;">email@campus.edu</p>
+                </div>
+              </div>
+
+              <!-- DOMAIN HIGHLIGHT BOX -->
+              <div style="background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; border: 1px solid #bfdbfe;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #1e40af; text-transform: uppercase;">Primary ERP Domain</div>
+                <div id="profile-view-domain-title" style="font-size: 1.25rem; font-weight: 800; color: #1e3a8a; margin-top: 0.2rem;">Marketing</div>
+                <p style="font-size: 0.8rem; color: #3b82f6; margin-top: 0.25rem;">
+                  ℹ️ This domain determines which student peer requests you automatically receive in your "Requests Received" tab.
+                </p>
+              </div>
+
+              <div style="margin-bottom: 1.5rem;">
+                <h4 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 0.5rem;">Bio</h4>
+                <p id="profile-view-bio" style="font-size: 0.875rem; color: #475569; background: #f8fafc; padding: 0.75rem; border-radius: var(--radius-sm);">
+                  Bio description...
+                </p>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                  <h4 style="font-size: 0.9rem; font-weight: 700; color: #065f46; margin-bottom: 0.5rem;">Skills You Can Teach</h4>
+                  <div id="profile-view-teach-tags" class="tag-cloud">
+                    <!-- Teach tags -->
+                  </div>
+                </div>
+
+                <div>
+                  <h4 style="font-size: 0.9rem; font-weight: 700; color: #1e40af; margin-bottom: 0.5rem;">Skills You Want to Learn</h4>
+                  <div id="profile-view-learn-tags" class="tag-cloud">
+                    <!-- Learn tags -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 1: REQUEST TO LEARN SKILL
+       ========================================================================== -->
+  <div id="modal-request-learn" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Request Peer Skill Session</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('modal-request-learn')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #eff6ff; padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.85rem;">
+          <div style="font-weight: 700; color: #1e40af;" id="modal-req-skill-name">Skill Name</div>
+          <div style="color: #3b82f6; font-size: 0.75rem;" id="modal-req-skill-meta">Domain: Finance</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Note for Peer Mentors (Optional)</label>
+          <textarea id="modal-req-note" class="form-input" rows="3" placeholder="Briefly describe what you'd like to learn or focus on..."></textarea>
+        </div>
+
+        <div style="font-size: 0.775rem; color: #64748b; background: #f8fafc; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid #e2e8f0;">
+          📌 <strong>Domain Matching Engine:</strong> This request will automatically notify all students whose profile domain matches <span id="modal-req-domain-highlight" style="font-weight: 700;">Finance</span>.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.closeModal('modal-request-learn')">Cancel</button>
+        <button class="btn btn-primary" onclick="window.submitSkillRequest()">Send Skill Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 2: INTERACTIVE CHAT
+       ========================================================================== -->
+  <div id="modal-chat" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title" id="chat-modal-title">Peer Learning Chat</h3>
+          <div style="font-size: 0.75rem; color: var(--text-muted);" id="chat-modal-subtitle">Coordinating session</div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeModal('modal-chat')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="chat-messages-container" class="chat-messages-area">
+          <!-- Dynamic Chat Bubbles -->
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="chat-input-text" class="form-input" placeholder="Type your message..." onkeypress="if(event.key==='Enter') window.submitChatMessage()">
+          <button class="btn btn-primary" onclick="window.submitChatMessage()">
+            <i data-lucide="send"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: space-between;">
+        <button class="btn btn-outline btn-sm" onclick="window.openScheduleModalFromChat()">
+          <i data-lucide="calendar"></i> Schedule Session
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="window.closeModal('modal-chat')">Close Chat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 3: SCHEDULE PEER SESSION
+       ========================================================================== -->
+  <div id="modal-schedule" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Schedule Peer Skill Session</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('modal-schedule')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="schedule-request-id">
+        
+        <div class="form-group">
+          <label class="form-label">Meeting Date</label>
+          <input type="date" id="schedule-date" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Meeting Time</label>
+          <input type="time" id="schedule-time" class="form-input" value="16:00" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Campus Venue / Location</label>
+          <input type="text" id="schedule-venue" class="form-input" placeholder="e.g. Central Library Room 3B / Management Computer Lab" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Session Agenda & Preparation Notes</label>
+          <textarea id="schedule-notes" class="form-input" rows="2" placeholder="Topics to cover, datasets to bring..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.closeModal('modal-schedule')">Cancel</button>
+        <button class="btn btn-primary" onclick="window.submitScheduleSession()">Confirm & Schedule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL 4: EDIT PROFILE
+       ========================================================================== -->
+  <div id="modal-profile-edit" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit ERP Profile</h3>
+        <button class="modal-close-btn" onclick="window.closeModal('modal-profile-edit')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="edit-profile-name" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Programme</label>
+          <input type="text" id="edit-profile-programme" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Which domain do you belong to?</label>
+          <select id="edit-profile-domain" class="form-input">
+            <option value="Marketing">Marketing</option>
+            <option value="Finance">Finance</option>
+            <option value="Operations">Operations</option>
+            <option value="HR">HR</option>
+            <option value="IT">IT</option>
+          </select>
+          <p style="font-size: 0.725rem; color: #64748b; margin-top: 0.25rem;">
+            ⚠️ This domain selection determines which peer skill requests you receive.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Skills You Can Teach (Comma-separated)</label>
+          <input type="text" id="edit-profile-teach" class="form-input" placeholder="e.g. Excel, Brand Management, Python">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Skills You Want to Learn (Comma-separated)</label>
+          <input type="text" id="edit-profile-learn" class="form-input" placeholder="e.g. Financial Modelling, Power BI">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Short Bio</label>
+          <textarea id="edit-profile-bio" class="form-input" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="window.closeModal('modal-profile-edit')">Cancel</button>
+        <button class="btn btn-primary" onclick="window.submitProfileEdit()">Save Profile Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container"></div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
