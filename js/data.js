@@ -567,6 +567,7 @@ const INITIAL_DATA = {
       text: '🔔 New skill request received from Kabir Patel for Brand Management.',
       read: false,
       timestamp: '2026-08-26T11:00:00Z'
-    }
-  ]
 };
+
+window.SEED_DATA = INITIAL_DATA;
+

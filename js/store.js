@@ -117,11 +117,15 @@ class ERPStore {
   }
 
   logout() {
-    this.state.currentUser = null;
+    this.state.currentUser = this.state.users[0];
     this.saveState();
   }
 
   getCurrentUser() {
+    if (!this.state.currentUser && this.state.users && this.state.users.length > 0) {
+      this.state.currentUser = this.state.users[0];
+      this.saveState();
+    }
     return this.state.currentUser;
   }
 

@@ -25,12 +25,8 @@ function initApp() {
     updateUI();
   });
 
-  const currentUser = window.erpStore.getCurrentUser();
-  if (currentUser) {
-    showMainApp();
-  } else {
-    showLoginView();
-  }
+  // Always bypass login and show main app
+  showMainApp();
 
   setupEventListeners();
 }
@@ -201,13 +197,8 @@ function selectGlobalSearchResult(type, id) {
 
 function handleLogout() {
   window.erpStore.logout();
-  const userInput = document.getElementById('login-username');
-  const passInput = document.getElementById('login-password');
-  if (userInput) userInput.value = '';
-  if (passInput) passInput.value = '';
-  
-  showToast('Logged out of ERP Portal', 'success');
-  showLoginView();
+  showToast('Profile reset to default student!', 'success');
+  switchView('home');
 }
 
 function showLoginView() {
